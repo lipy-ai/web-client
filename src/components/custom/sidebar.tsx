@@ -33,7 +33,7 @@ export function Nav({ links, isCollapsed, name }: NavProps) {
         >
             {!isCollapsed && name && (
                 <>
-                    <div className="font-semibold text-xs text-muted-foreground uppercase flex mt-4">
+                    <div className="font-semibold text-xs text-muted-foreground uppercase flex mt-2">
                         <span className="h-4 w-4 block" />
                         <span>{name}</span>
                     </div>

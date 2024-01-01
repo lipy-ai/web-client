@@ -2,12 +2,12 @@ import React from 'react'
 
 import Layout from '@/components/layout'
 
-import TicketList from '../components/list'
+import View from '../components/view'
 
 const Page = () => {
     return (
         <Layout type="dashboard">
-            <TicketList />
+            <View />
         </Layout>
     )
 }

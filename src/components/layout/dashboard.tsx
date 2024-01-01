@@ -1,6 +1,13 @@
 'use client'
 
-import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+    Fragment,
+    ReactNode,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react'
 import { usePathname } from 'next/navigation'
 import {
     AlertCircle,
@@ -247,7 +254,7 @@ const DashboardLayout = ({
                         collapsedSize={navCollapsedSize}
                         collapsible={true}
                         minSize={10}
-                        maxSize={15}
+                        maxSize={17}
                         onCollapse={() => {
                             setIsCollapsed(true)
                         }}
@@ -274,8 +281,9 @@ const DashboardLayout = ({
                             <Separator />
                             <ScrollArea>
                                 {navLinks.map((nav, i) => (
-                                    <>
+                                    <Fragment key={`nav-${i}`}>
                                         <Nav
+                                            key={i}
                                             name={nav.title}
                                             isCollapsed={isCollapsed}
                                             links={nav.links}
@@ -283,7 +291,7 @@ const DashboardLayout = ({
                                         {i < navLinks.length - 1 && (
                                             <Separator />
                                         )}
-                                    </>
+                                    </Fragment>
                                 ))}
                             </ScrollArea>
                         </div>
@@ -296,7 +304,7 @@ const DashboardLayout = ({
                             </h1>
                         </div>
                         <Separator />
-                        <div>{children}</div>
+                        <div className="h-full flex flex-col">{children}</div>
                     </ResizablePanel>
                 </ResizablePanelGroup>
             </TooltipProvider>
