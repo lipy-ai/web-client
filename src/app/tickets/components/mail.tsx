@@ -1,9 +1,11 @@
+import { ScrollArea } from '@radix-ui/react-scroll-area'
 import format from 'date-fns/format'
+import { Reply } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { Textarea } from '@/components/ui/textarea'
+import { TextArea } from '@/components/ui/textarea'
 
 interface MailDisplayProps {
     mail: any | null
@@ -13,7 +15,7 @@ export function MailDisplay({ mail }: MailDisplayProps) {
     const today = new Date()
 
     return (
-        <div className="flex flex-1 flex-col">
+        <>
             <div className="flex items-center p-2">
                 <div className="flex items-center gap-2 h-12">
                     <p>Head</p>
@@ -39,12 +41,6 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                                 <div className="line-clamp-1 text-xs">
                                     {mail.subject}
                                 </div>
-                                <div className="line-clamp-1 text-xs">
-                                    <span className="font-medium">
-                                        Reply-To:
-                                    </span>{' '}
-                                    {mail.email}
-                                </div>
                             </div>
                         </div>
                         {mail.date && (
@@ -54,31 +50,31 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                         )}
                     </div>
                     <Separator />
-                    <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
+                    <ScrollArea className="whitespace-pre-wrap p-4 text-sm ">
                         {mail.text}
-                    </div>
+                    </ScrollArea>
                     <Separator className="mt-auto" />
-                    <div className="p-4">
-                        <form>
-                            <div className="grid gap-4">
-                                <Textarea
-                                    className="p-4"
-                                    placeholder={`Reply ${mail.name}...`}
-                                />
-                                <div className="flex items-center">
-                                    <Button size="sm" className="ml-auto">
-                                        Send
-                                    </Button>
-                                </div>
+                    <form className="p-4">
+                        <div className="flex gap-4 items-center">
+                            <TextArea
+                                className="flex-1"
+                                placeholder={`Reply ${mail.name}...`}
+                            />
+
+                            <div className="flex items-center mt-auto">
+                                <Button size="sm" className="ml-auto gap-2">
+                                    <Reply className="w-4 h-4" />
+                                    <span>Send Reply</span>
+                                </Button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             ) : (
                 <div className="p-8 text-center text-muted-foreground">
                     No message selected
                 </div>
             )}
-        </div>
+        </>
     )
 }

@@ -1,13 +1,6 @@
 'use client'
 
-import React, {
-    Fragment,
-    ReactNode,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react'
+import React, { Fragment, ReactNode, useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import {
     AlertCircle,
@@ -97,7 +90,6 @@ const accounts = [
 ]
 
 const DashboardLayout = ({
-    title,
     children,
     defaultCollapsed = false,
     defaultLayout = [15, 85],
@@ -241,7 +233,7 @@ const DashboardLayout = ({
     console.log(active)
 
     return (
-        <div className="h-screen">
+        <div>
             <TooltipProvider delayDuration={0}>
                 <ResizablePanelGroup
                     autoSaveId={keyName}
@@ -266,7 +258,7 @@ const DashboardLayout = ({
                                 'min-w-[50px] transition-all duration-300 ease-in-out'
                         )}
                     >
-                        <div className="flex flex-col h-full">
+                        <div className="flex flex-col h-screen">
                             <div
                                 className={cn(
                                     'flex h-[52px] items-center justify-center',
@@ -279,7 +271,7 @@ const DashboardLayout = ({
                                 />
                             </div>
                             <Separator />
-                            <ScrollArea className="py-2">
+                            <ScrollArea className="py-4">
                                 {navLinks.map((nav, i) => (
                                     <Fragment key={`nav-${i}`}>
                                         <Nav
@@ -298,13 +290,11 @@ const DashboardLayout = ({
                     </ResizablePanel>
                     <ResizableHandle withHandle />
                     <ResizablePanel defaultSize={layout[1]} minSize={30}>
-                        <div className="flex items-center px-4 py-2 h-[52px]">
-                            <h1 className="text-xl font-bold capitalize">
-                                {active?.title || ''}
-                            </h1>
+                        <div className="h-screen overflow-auto">
+                            <div className="h-full flex flex-col">
+                                {children}
+                            </div>
                         </div>
-                        <Separator />
-                        <div className="h-full flex flex-col">{children}</div>
                     </ResizablePanel>
                 </ResizablePanelGroup>
             </TooltipProvider>

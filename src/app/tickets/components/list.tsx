@@ -26,7 +26,7 @@ const TicketList = () => {
                     <button
                         key={item.id}
                         className={cn(
-                            'flex items-start gap-4 justify-between px-6 py-3 border-b first:border-t text-left text-sm transition-all hover:bg-accent'
+                            'flex items-start gap-4 justify-between px-6 py-3 border-b last:border-0 text-left text-sm transition-all hover:bg-accent'
                             // mail.selected === item.id && 'bg-muted'
                         )}
                         // onClick={() =>

@@ -1,24 +1,43 @@
-import * as React from "react"
+import React from 'react'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+export interface InputProps
+    extends React.TableHTMLAttributes<HTMLTextAreaElement> {
+    noStyle?: boolean
+}
 
-const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <textarea
-        className={cn(
-          "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
+const TextArea = React.forwardRef<HTMLTextAreaElement, InputProps>(
+    ({ className, noStyle, ...props }, ref) => {
+        const handleSize = (el: HTMLElement) => {
+            el.style.height = '0px'
+            el.style.height = `${el.scrollHeight}px`
+        }
+
+        React.useEffect(() => {
+            if (!props.id || !document) return
+            const el = document.getElementById(String(props.id))
+            el && handleSize(el)
+        }, [props.id])
+
+        return (
+            <textarea
+                className={cn(
+                    'resize-none outline-none focus:outline-none max-h-[300px] text-sm',
+                    className
+                )}
+                rows={1}
+                onInput={(e) => {
+                    handleSize(e.currentTarget)
+                    props.onChange && props.onChange(e)
+                }}
+                ref={ref}
+                {...props}
+            />
+        )
+    }
 )
-Textarea.displayName = "Textarea"
 
-export { Textarea }
+TextArea.displayName = 'TextArea'
+
+export { TextArea }
