@@ -279,7 +279,7 @@ const DashboardLayout = ({
                                 />
                             </div>
                             <Separator />
-                            <ScrollArea>
+                            <ScrollArea className="py-2">
                                 {navLinks.map((nav, i) => (
                                     <Fragment key={`nav-${i}`}>
                                         <Nav
@@ -288,9 +288,9 @@ const DashboardLayout = ({
                                             isCollapsed={isCollapsed}
                                             links={nav.links}
                                         />
-                                        {i < navLinks.length - 1 && (
+                                        {/* {i < navLinks.length - 1 && (
                                             <Separator />
-                                        )}
+                                        )} */}
                                     </Fragment>
                                 ))}
                             </ScrollArea>

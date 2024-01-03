@@ -36,7 +36,7 @@ const TicketList = () => {
                         //     })
                         // }
                     >
-                        <div className="flex gap-12">
+                        <div>
                             <p className="font-medium">{item.name}</p>
                             <p className="text-muted-foreground">
                                 {item.subject}

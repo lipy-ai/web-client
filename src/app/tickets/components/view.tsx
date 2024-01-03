@@ -1,53 +1,41 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 
 import { Input } from '@/components/ui/input'
-import {
-    ResizableHandle,
-    ResizablePanel,
-    ResizablePanelGroup,
-} from '@/components/ui/resizable'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import TicketList from '../components/list'
-import { CardsStats } from './stats'
+import { MailDisplay } from './mail'
 
 const View = () => {
     const [layout, setLayout] = useState([30, 70])
 
     return (
-        // <ResizablePanelGroup
-        //     autoSaveId={'keyName'}
-        //     direction="horizontal"
-        //     onLayout={(sizes: number[]) => setLayout(sizes)}
-        //     className="flex-1 items-stretch"
-        // >
-        //     <ResizablePanel defaultSize={layout[0]} minSize={35} maxSize={65}>
-        //         <TicketList />
-        //     </ResizablePanel>
-        //     <ResizableHandle withHandle />
-
-        //     <ResizablePanel defaultSize={layout[1]} minSize={35} maxSize={65}>
-        //         <div></div>
-        //     </ResizablePanel>
-        // </ResizablePanelGroup>
-        <ScrollArea className="h-[calc(100vh-50px)]">
-            <div className="p-4">
-                {/* <div className="grid grid-cols-3 p-4 gap-4">
-                <div className="col-span-1">
-                    <TicketList />
-                </div>
-                <div className="col-span-2 border-l"></div>
-            </div> */}
-                <CardsStats />
-                <div className="py-8">
-                    <Input placeholder="Filter" />
+        <div className="grid grid-cols-3">
+            <ScrollArea className="col-span-1 h-[calc(100%-52px)]">
+                <div className="flex p-4 gap-4 flex-wrap">
+                    <Input placeholder="Search tickets..." />
                 </div>
                 <TicketList />
                 <TicketList />
+            </ScrollArea>
+            <div className="col-span-2 border-l">
+                <MailDisplay
+                    mail={{
+                        id: 'od',
+                        name: 'William Smith',
+                        email: 'williamsmith@example.com',
+                        subject: 'Meeting Tomorrow',
+                        text: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success.\n\nPlease come prepared with any questions or insights you may have. Looking forward to our meeting!\n\nBest regards, William",
+                        date: '2023-10-22T09:00:00',
+                        read: true,
+                        labels: ['meeting', 'work', 'important'],
+                    }}
+                />
             </div>
-        </ScrollArea>
+        </div>
     )
 }
 
