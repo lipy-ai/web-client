@@ -27,19 +27,16 @@ interface NavProps {
 export function Nav({ links, isCollapsed, name }: NavProps) {
     const pathname = usePathname()
     return (
-        <div
-            data-collapsed={isCollapsed}
-            className="group flex flex-col gap-3 py-2 data-[collapsed=true]:py-2"
-        >
+        <div data-collapsed={isCollapsed} className="group flex flex-col gap-3">
             {!isCollapsed && name && (
                 <>
-                    <div className="font-semibold text-xs text-muted-foreground uppercase flex mt-2">
+                    <div className="px-1 font-semibold text-xs text-muted-foreground/50 uppercase flex mt-4">
                         <span className="h-4 w-4 block" />
                         <span>{name}</span>
                     </div>
                 </>
             )}
-            <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
+            <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2 ">
                 {links.map((link, index) => {
                     const active =
                         link.url === '/'
@@ -58,12 +55,15 @@ export function Nav({ links, isCollapsed, name }: NavProps) {
                                                 : 'ghost',
                                             size: 'icon',
                                         }),
-                                        'h-9 w-9',
+                                        'h-9 w-9 group-[[data-collapsed=true]]:my-0.5',
                                         active &&
                                             'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
                                     )}
                                 >
-                                    <link.icon className="h-4 w-4" />
+                                    <link.icon
+                                        className="h-5 w-5"
+                                        strokeWidth={1.5}
+                                    />
                                     <span className="sr-only">
                                         {link.title}
                                     </span>
@@ -95,7 +95,10 @@ export function Nav({ links, isCollapsed, name }: NavProps) {
                                 'justify-start'
                             )}
                         >
-                            <link.icon className="mr-2 h-4 w-4" />
+                            <link.icon
+                                className="mr-2 h-4 w-4"
+                                strokeWidth={1.5}
+                            />
                             {link.title}
                             {link.label && (
                                 <span
