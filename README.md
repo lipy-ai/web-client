@@ -1,6 +1,5 @@
 ## Getting Started
-## hello
-##update
+## hello commit
 
 First, run the development server:
 
