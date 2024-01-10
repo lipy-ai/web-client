@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { formatDistance, formatDistanceToNow } from 'date-fns'
+import { Mail, MessageCircle, MessageSquare } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -26,7 +27,7 @@ const TicketList = () => {
                     <button
                         key={item.id}
                         className={cn(
-                            'flex items-start gap-4 justify-between px-6 py-3 border-b last:border-0 text-left text-sm transition-all hover:bg-accent'
+                            'flex items-start gap-4 justify-between pl-3 pr-6 py-3 border-b last:border-0 text-left text-sm transition-all hover:bg-accent'
                             // mail.selected === item.id && 'bg-muted'
                         )}
                         // onClick={() =>
@@ -36,11 +37,16 @@ const TicketList = () => {
                         //     })
                         // }
                     >
-                        <div>
-                            <p className="font-medium">{item.name}</p>
-                            <p className="text-muted-foreground">
-                                {item.subject}
-                            </p>
+                        <div className="flex gap-3">
+                            <div className="w-8 h-8 border flex items-center justify-center rounded-full my-auto bg-accent">
+                                <MessageSquare className="w-4 h-4 " />
+                            </div>
+                            <div>
+                                <p className="font-medium">{item.name}</p>
+                                <p className="text-muted-foreground">
+                                    {item.subject}
+                                </p>
+                            </div>
                         </div>
                         <p>{formatDistanceToNow(item.date)}</p>
                     </button>
