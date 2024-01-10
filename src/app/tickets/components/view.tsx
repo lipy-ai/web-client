@@ -13,7 +13,6 @@ import { Separator } from '@/components/ui/separator'
 import Toolbar from '@/app/tickets/components/toolbar'
 
 import TicketList from '../components/list'
-import TicketView from './ticket-view'
 import TicketHead from './ticket-view/head'
 import TicketPreviewFooter from './ticket-view/input'
 import TicketPreviewBody from './ticket-view/messages'
@@ -41,10 +40,10 @@ const View = () => {
             <ResizableHandle withHandle />
             <ResizablePanel minSize={30} className="flex flex-col">
                 <ScrollArea>
-                    <div className="px-4">
+                    <div>
                         <TicketHead />
                         <TicketPreviewBody />
-                        <div className="sticky bottom-0 bg-background rounded-md py-4">
+                        <div className="sticky bottom-0 bg-background rounded-md p-4">
                             <TicketPreviewFooter />
                         </div>
                     </div>
