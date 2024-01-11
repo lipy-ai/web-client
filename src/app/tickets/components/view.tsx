@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { Input } from '@/components/ui/input'
 import {
@@ -13,16 +13,31 @@ import { Separator } from '@/components/ui/separator'
 import Toolbar from '@/app/tickets/components/toolbar'
 
 import TicketList from '../components/list'
+import TicketPreviewFooter from './ticket-view/footer'
 import TicketHead from './ticket-view/head'
-import TicketPreviewFooter from './ticket-view/input'
 import TicketPreviewBody from './ticket-view/messages'
 
 const View = () => {
     const [layout, setLayout] = useState([30, 70])
 
+    const ref = useRef<HTMLDivElement>(null)
+    useEffect(() => {
+        if (!ref.current) return
+        const el = ref.current.querySelector(
+            '[data-radix-scroll-area-viewport]'
+        )
+        if (!el) return
+
+        el.scrollTop = el.scrollHeight
+    }, [ref])
+
     return (
         <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel className="flex flex-col" minSize={30}>
+            <ResizablePanel
+                className="flex flex-col"
+                minSize={30}
+                defaultSize={layout[0]}
+            >
                 <ScrollArea>
                     <h1 className="font-semibold text-lg p-3">Tickets</h1>
                     <Separator />
@@ -38,14 +53,17 @@ const View = () => {
                 </ScrollArea>
             </ResizablePanel>
             <ResizableHandle withHandle />
-            <ResizablePanel minSize={30} className="flex flex-col">
-                <ScrollArea>
+            <ResizablePanel
+                minSize={30}
+                defaultSize={layout[1]}
+                className="flex flex-col"
+            >
+                <ScrollArea ref={ref}>
                     <div>
                         <TicketHead />
                         <TicketPreviewBody />
-                        <div className="sticky bottom-0 bg-background rounded-md p-4">
-                            <TicketPreviewFooter />
-                        </div>
+
+                        <TicketPreviewFooter />
                     </div>
                 </ScrollArea>
             </ResizablePanel>

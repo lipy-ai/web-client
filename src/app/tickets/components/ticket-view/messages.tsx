@@ -1,63 +1,90 @@
 import { useEffect, useRef } from 'react'
+import { formatDistanceToNow, formatRelative } from 'date-fns'
 
 import { cn } from '@/lib/utils'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 
-import { useTicket } from '../../store/useTicket'
+import { IMessage, useTicket } from '../../store/useTicket'
+
+const AvatarComponent = ({
+    sender_type,
+    name,
+}: {
+    sender_type: IMessage['sender_type']
+    name: IMessage['name']
+}) => {
+    return (
+        <div>
+            <Avatar className="border rounded-md">
+                <AvatarImage
+                    src={
+                        sender_type === 'bot'
+                            ? 'https://api.dicebear.com/7.x/fun-emoji/svg?eyes=glasses&mouth=cute&backgroundColor=ffdfbf'
+                            : ``
+                    }
+                    alt={name}
+                    className="rounded-md"
+                />
+                <AvatarFallback
+                    className={cn(
+                        'rounded-md',
+                        sender_type === 'customer' &&
+                            'bg-primary text-primary-foreground'
+                    )}
+                >
+                    {name
+                        .split(' ')
+                        .map((chunk) => chunk[0])
+                        .join('')}
+                </AvatarFallback>
+            </Avatar>
+        </div>
+    )
+}
 
 const TicketPreviewBody = () => {
     const [data, setData] = useTicket()
 
-    const ref = useRef<HTMLDivElement>(null)
-    useEffect(() => {
-        const el = ref.current
-        if (!el) return
-        el.scrollTop = el.scrollHeight
-    }, [data.items.length, ref])
-
     return (
-        <div ref={ref} className="space-y-4 flex-1 overflow-y-auto p-4 text-sm">
-            {data.items.map((msg, i) => (
+        <div className="text-sm ">
+            {data.items.map((item, i) => (
                 <div
-                    key={`msg-${i}`}
+                    key={i}
                     className={cn(
-                        'w-fit min-w-[30%] max-w-[80%] flex gap-2',
-                        msg.type === 'human' ? 'ml-auto' : 'mr-auto'
+                        'flex items-start w-full gap-2 p-4 border-b border-border/40',
+                        item.sender_type === 'customer' && 'bg-primary/10'
                     )}
                 >
-                    <div
-                        className={cn(
-                            'rounded-b-lg shadow p-2 flex-1',
-                            msg.type === 'human'
-                                ? 'bg-muted rounded-l-lg'
-                                : 'bg-primary/20 rounded-r-lg'
-                        )}
-                    >
-                        <span>{msg.text}</span>
+                    <AvatarComponent
+                        sender_type={item.sender_type}
+                        name={item.name}
+                    />
+                    <div className="flex-1">
+                        <div className="flex justify-between leading-none mb-0.5">
+                            <div className={'font-semibold'}>
+                                <span>{item.name}</span>
+                                {item.sender_type === 'customer' && (
+                                    <>
+                                        <span className="text-xs font-medium capitalize">
+                                            ,&nbsp;
+                                        </span>
+                                        <span className="text-xs font-medium capitalize text-primary">
+                                            {item.sender_type}
+                                        </span>
+                                    </>
+                                )}
+                            </div>
+                            <p className="text-xs font-light">
+                                {formatRelative(item.sent_at, new Date())}
+                            </p>
+                        </div>
+                        <div className="max-w-[90%]">
+                            <p>{item.data.text}</p>
+                        </div>
                     </div>
                 </div>
             ))}
-            <div key={`msg`} className={cn('w-fit flex gap-2', 'mr-auto')}>
-                <div
-                    className={cn(
-                        'rounded-b-lg shadow p-2.5 flex gap-1 h-fit my-auto',
-                        'bg-primary/20 rounded-r-lg'
-                    )}
-                >
-                    {[...Array(3)].map((_, i) => (
-                        <span
-                            key={i}
-                            className={cn(
-                                'w-1.5 h-1.5 block bg-muted-foreground/50 rounded-full animate-bounce',
-                                i === 0
-                                    ? 'delay-0'
-                                    : i === 1
-                                      ? 'delay-300'
-                                      : 'delay-700'
-                            )}
-                        />
-                    ))}
-                </div>
-            </div>
         </div>
     )
 }
