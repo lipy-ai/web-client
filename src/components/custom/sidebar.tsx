@@ -24,7 +24,7 @@ interface NavProps {
     name?: string
 }
 
-export function Nav({ links, isCollapsed, name }: NavProps) {
+export const Nav = ({ links, isCollapsed, name }: NavProps) => {
     const pathname = usePathname()
     return (
         <div data-collapsed={isCollapsed} className="group flex flex-col gap-3">

@@ -8,19 +8,18 @@ import { firebase_auth, firebase_db, firebase_fn } from '@/firebase/config'
 import { connectAuthEmulator, getIdTokenResult, User } from 'firebase/auth'
 import { connectFirestoreEmulator } from 'firebase/firestore'
 import { connectFunctionsEmulator } from 'firebase/functions'
+import { toast } from 'sonner'
+
+import { FullPageLoader } from '@/components/custom/loader'
 
 export interface IAuthContext {
     loading: boolean
     user: User | null
-    // local: LocalUser | undefined
-    token: string | null
 }
 
 const values = {
     loading: false,
     user: null,
-    local: undefined,
-    token: null,
 }
 
 const AuthContext = createContext<IAuthContext>(values)
@@ -30,10 +29,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
     const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
-    const [token, setToken] = useState<IAuthContext['token']>(null)
-    // const { data: local, isLoading: localFetching } = useLocalUserQuery(
-    //     !!token && !loading && !!user
-    // )
 
     const router = useRouter()
     const pathname = usePathname()
@@ -59,16 +54,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }, [])
 
     useEffect(() => {
-        if (!user) return setToken(null)
+        if (!user) return router.push('/auth')
         getIdTokenResult(user)
             .then((res) => {
                 if (res.claims.deactivated && pathname !== '/deactivated') {
                     handleDeactivated()
                 }
-
-                setToken(res.token)
             })
-            .catch((err) => setToken(null))
+            .catch((err) => toast.error('Failed to fetch token result'))
 
         removeAuthCache()
     }, [user])
@@ -78,11 +71,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             value={{
                 loading: loading, //|| localFetching,
                 user,
-                // local,
-                token,
             }}
         >
-            {children}
+            {!user && !pathname.includes('/auth') ? (
+                <FullPageLoader />
+            ) : (
+                children
+            )}
         </AuthContext.Provider>
     )
 }

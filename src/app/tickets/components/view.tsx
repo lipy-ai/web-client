@@ -6,6 +6,7 @@ import { useTicketsQuery } from '@/queries/ticket'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
+import Navbar from '@/components/custom/navbar'
 import Toolbar from '@/app/tickets/components/toolbar'
 
 import { useTicketStore } from '../../../store/useTicket'
@@ -83,11 +84,7 @@ const View = () => {
                     <TicketPreview />
                 </SheetContent>
             </Sheet>
-            <div className="sticky top-0 bg-background">
-                <h1 className="font-semibold text-lg p-3">Tickets</h1>
-                <Separator />
-            </div>
-
+            <Navbar title="All Tickets" />
             <div className="m-8 space-y-6">
                 <div className="flex gap-4">
                     <Input placeholder="Search tickets..." />
