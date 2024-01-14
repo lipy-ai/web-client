@@ -103,7 +103,6 @@ const DashboardLayout = ({
     const keyName = 'dashboard'
 
     useEffect(() => {
-        console.log(isCollapsed)
         document.cookie = `react-resizable-panels:${keyName}-collapsed=${JSON.stringify(
             isCollapsed
         )}; path=/`
@@ -229,8 +228,6 @@ const DashboardLayout = ({
         })
         return result as (typeof navLinks)[0]['links'][0] | undefined
     }, [pathname])
-
-    console.log(active)
 
     return (
         <div>

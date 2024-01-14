@@ -3,6 +3,9 @@ import { Inter } from 'next/font/google'
 
 import './globals.css'
 
+import { AuthProvider } from '@/contexts/auth'
+import { Toaster } from 'sonner'
+
 import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,9 +22,17 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={cn(inter.className, 'flex flex-col min-h-screen')}>
-                {children}
-            </body>
+            <AuthProvider>
+                <body
+                    className={cn(
+                        inter.className,
+                        'flex flex-col min-h-screen'
+                    )}
+                >
+                    {children}
+                    <Toaster />
+                </body>
+            </AuthProvider>
         </html>
     )
 }

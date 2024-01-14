@@ -37,8 +37,9 @@ const TicketPreviewFooter = () => {
                     <TextArea
                         placeholder="Type message here..."
                         value={text}
+                        rows={1}
                         onChange={(e) => setText(e.currentTarget.value)}
-                        className="p-0 min-h-8"
+                        className="p-0 min-h-4"
                     />
                     <div className="flex items-end justify-end">
                         <Button

@@ -1,4 +1,4 @@
-import { atom, useAtom } from 'jotai'
+import { create } from 'zustand'
 
 export type IMessage = {
     sender_id: string
@@ -199,8 +199,14 @@ const data = {
     items: [...msgs, ...msgs, ...msgs],
 }
 
-const configAtom = atom<typeof data>(data)
-
-export function useTicket() {
-    return useAtom(configAtom)
+export type TicketStore = {
+    data: typeof data
+    currTicket: string | null
+    setCurrTicket: (currTicket: TicketStore['currTicket']) => void
 }
+
+export const useTicketStore = create<TicketStore>((set) => ({
+    data,
+    currTicket: null,
+    setCurrTicket: (currTicket) => set({ currTicket }),
+}))

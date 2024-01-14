@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 
-import { IMessage, useTicket } from '../../store/useTicket'
+import { IMessage, useTicketStore } from '../../store/useTicket'
 
 const AvatarComponent = ({
     sender_type,
@@ -44,7 +44,7 @@ const AvatarComponent = ({
 }
 
 const TicketPreviewBody = () => {
-    const [data, setData] = useTicket()
+    const { data } = useTicketStore()
 
     return (
         <div className="text-sm ">
