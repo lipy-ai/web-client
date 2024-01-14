@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 
 import { AuthProvider } from '@/contexts/auth'
+import GlobalClientSideProvider from '@/contexts/globalClientProvider'
 import { Toaster } from 'sonner'
 
 import { cn } from '@/lib/utils'
@@ -22,17 +23,14 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <AuthProvider>
-                <body
-                    className={cn(
-                        inter.className,
-                        'flex flex-col min-h-screen'
-                    )}
-                >
-                    {children}
-                    <Toaster />
-                </body>
-            </AuthProvider>
+            <body className={cn(inter.className, 'flex flex-col min-h-screen')}>
+                <GlobalClientSideProvider>
+                    <AuthProvider>
+                        {children}
+                        <Toaster />
+                    </AuthProvider>
+                </GlobalClientSideProvider>
+            </body>
         </html>
     )
 }

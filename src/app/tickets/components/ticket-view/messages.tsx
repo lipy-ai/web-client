@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 
-import { IMessage, useTicketStore } from '../../store/useTicket'
+import { IMessage, useTicketStore } from '../../../../store/useTicket'
 
 const AvatarComponent = ({
     sender_type,

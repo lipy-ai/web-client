@@ -3,13 +3,34 @@ import { firebase_auth } from '@/firebase/config'
 import { differenceInSeconds } from 'date-fns'
 import { toast } from 'sonner'
 
-export const getToken = async () => {
-    const expiresInSeconds = differenceInSeconds(
-        (firebase_auth as any).currentUser?.stsTokenManager?.expirationTime,
-        new Date().getTime()
-    )
+const delay = (ms: number) => {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
-    return await firebase_auth.currentUser?.getIdToken(expiresInSeconds <= 0)
+export const getToken = async () => {
+    let counter = 0
+    let token = null
+
+    const handle = async () => {
+        const expiresInSeconds = differenceInSeconds(
+            (firebase_auth as any).currentUser?.stsTokenManager?.expirationTime,
+            new Date().getTime()
+        )
+        token = await firebase_auth.currentUser?.getIdToken(
+            expiresInSeconds <= 0
+        )
+    }
+    if (token || counter > 10) return token
+
+    // Wait for the interval to stop
+    while (counter < 10) {
+        if (token) break
+        counter++
+        if (counter > 0) await delay(500)
+        console.log(counter)
+        handle()
+    }
+    return token
 }
 
 export const apiQuery = async (

@@ -12,7 +12,7 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint","@tanstack/query"],
   "env": {
     "es6": true,
     "browser": true,
@@ -20,7 +20,10 @@
     "jest": true
   },
   "rules": {
-
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/no-deprecated-options": "error",
+    "@tanstack/query/prefer-query-object-syntax": "error",
+    "@tanstack/query/stable-query-client": "error",
     "no-console": 1,
     "no-var": "error",
     "semi": ["error", "never"],

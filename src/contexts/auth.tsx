@@ -41,7 +41,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const handleDeactivated = async () => {
         router.replace('/deactivated')
     }
-
     useEffect(() => {
         if (process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
             connectFirestoreEmulator(firebase_db, 'localhost', 8080)

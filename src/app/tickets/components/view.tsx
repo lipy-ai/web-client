@@ -1,14 +1,15 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
+import { useTicketsQuery } from '@/queries/ticket'
 
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import Toolbar from '@/app/tickets/components/toolbar'
 
+import { useTicketStore } from '../../../store/useTicket'
 import TicketList from '../components/list'
-import { useTicketStore } from '../store/useTicket'
 import TicketPreviewFooter from './ticket-view/footer'
 import TicketHead from './ticket-view/head'
 import TicketPreviewBody from './ticket-view/messages'
@@ -32,6 +33,7 @@ const TicketPreview = () => {
 }
 
 const View = () => {
+    const { data, isLoading, isError } = useTicketsQuery()
     const { currTicket, setCurrTicket } = useTicketStore()
 
     const handleOpenChange = (open: boolean) => {
