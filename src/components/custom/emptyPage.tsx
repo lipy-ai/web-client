@@ -20,15 +20,25 @@ const EmptyPage = (props: {
                     height={'350px'}
                 />
             ) : props.icon ? (
-                <props.icon strokeWidth={1} />
+                <props.icon
+                    strokeWidth={1.2}
+                    width={75}
+                    height={75}
+                    className="text-primary"
+                />
             ) : (
-                <Bird strokeWidth={1} width={75} height={75} />
+                <Bird
+                    strokeWidth={1.2}
+                    width={75}
+                    height={75}
+                    className="text-primary"
+                />
             )}
 
             <h1 className="text-lg font-medium my-2">
                 {props.title || 'Nothing Found Here!'}
             </h1>
-            <p className="text-sm text-muted-foreground max-w-[450px]">
+            <p className="text-sm text-muted-foreground max-w-xs">
                 {props.description || 'It feels empty to me.'}
             </p>
             {props.children}
