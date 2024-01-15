@@ -5,13 +5,13 @@ import { cn } from '@/lib/utils'
 
 export const FullPageError = ({
     title,
-    message,
+    message = 'Oops, Looks like something went wrong!',
     children,
     icon,
     className,
 }: {
     title?: string
-    message: string
+    message?: string
     children?: ReactNode
     icon?: ReactNode
     className?: string

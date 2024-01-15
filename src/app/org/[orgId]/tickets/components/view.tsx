@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import Navbar from '@/components/custom/navbar'
-import Toolbar from '@/app/org/[id]/tickets/components/toolbar'
+import Toolbar from '@/app/org/[orgId]/tickets/components/toolbar'
 
 import { useTicketStore } from '../../../../../store/useTicket'
 import TicketList from './list'

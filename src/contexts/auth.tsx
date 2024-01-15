@@ -54,6 +54,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }, [])
 
     useEffect(() => {
+        if (loading) return
         if (!user) return router.push('/auth')
         getIdTokenResult(user)
             .then((res) => {
@@ -64,7 +65,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             .catch((err) => toast.error('Failed to fetch token result'))
 
         removeAuthCache()
-    }, [user])
+    }, [user, loading])
 
     return (
         <AuthContext.Provider

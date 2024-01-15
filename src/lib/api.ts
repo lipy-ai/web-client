@@ -73,8 +73,9 @@ export const apiQuery = async (
         })
         .catch((err) => {
             if (opts?.throwError) throw err
-            return toast.error('Oh no! Error', {
+            toast.error('Oh no! Error', {
                 description: err.message || 'Something went wrong',
             })
+            return null
         })
 }

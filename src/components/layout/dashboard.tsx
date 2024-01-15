@@ -1,7 +1,7 @@
 'use client'
 
 import React, { Fragment, ReactNode, useEffect, useMemo, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import {
     AlertCircle,
     Blocks,
@@ -39,7 +39,6 @@ interface Props {
 }
 
 const DashboardLayout = ({
-    params,
     children,
     defaultCollapsed = false,
     defaultLayout = [15, 85],
@@ -47,8 +46,9 @@ const DashboardLayout = ({
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
     const [layout, setLayout] = useState(defaultLayout)
     const pathname = usePathname()
-    console.log(params)
     const navCollapsedSize = 4
+
+    const { orgId } = useParams<{ orgId: string }>()
 
     const keyName = 'dashboard'
 
@@ -70,7 +70,7 @@ const DashboardLayout = ({
                 {
                     title: 'Home',
                     icon: Home,
-                    url: '/',
+                    url: `/org/${orgId}`,
                 },
             ],
         },
@@ -81,19 +81,19 @@ const DashboardLayout = ({
                     title: 'All Tickets',
                     label: '128',
                     icon: Ticket,
-                    url: '/tickets/view/all',
+                    url: `/org/${orgId}/tickets/view/all`,
                 },
                 {
                     title: 'Emails',
                     label: '9',
                     icon: Mail,
-                    url: '/tickets/view/email',
+                    url: `/org/${orgId}/tickets/view/email`,
                 },
                 {
                     title: 'Chats',
                     label: '',
                     icon: MessagesSquare,
-                    url: '/tickets/view/chat',
+                    url: `/org/${orgId}/tickets/view/chat`,
                 },
             ],
         },
@@ -104,19 +104,19 @@ const DashboardLayout = ({
                     title: 'Website',
                     // label: '972',
                     icon: Globe,
-                    url: '/knowledge-base/website',
+                    url: `/org/${orgId}/knowledge-base/website`,
                 },
                 {
                     title: 'Documents',
                     // label: '342',
                     icon: FileText,
-                    url: '/knowledge-base/documents',
+                    url: `/org/${orgId}/knowledge-base/documents`,
                 },
                 {
                     title: 'FAQs',
                     // label: '342',
                     icon: FileQuestion,
-                    url: '/knowledge-base/faqs',
+                    url: `/org/${orgId}/knowledge-base/faqs`,
                 },
             ],
         },
@@ -127,19 +127,19 @@ const DashboardLayout = ({
                     title: 'Chatbots',
                     // label: '972',
                     icon: MessageSquareCode,
-                    url: '/setup/chatbots',
+                    url: `/org/${orgId}/setup/chatbots`,
                 },
                 {
                     title: 'Email Inbox',
                     // label: '972',
                     icon: MailPlus,
-                    url: '/setup/email-inbox',
+                    url: `/org/${orgId}/setup/email-inbox`,
                 },
                 {
                     title: 'Integrations',
                     // label: '342',
                     icon: Blocks,
-                    url: '/setup/integrations',
+                    url: `/org/${orgId}/setup/integrations`,
                 },
             ],
         },
@@ -167,16 +167,20 @@ const DashboardLayout = ({
         },
     ]
 
-    const active = useMemo(() => {
-        let result = undefined
-        navLinks.find((n) => {
-            return (result = n.links.find((l) =>
-                l.url === '/'
-                    ? l.url === pathname
-                    : pathname.slice(0, l.url?.length || 0) === l.url
-            ))
+    const links = useMemo(() => {
+        return navLinks.map((n) => {
+            const newLinks = n.links.map((l) => {
+                return {
+                    ...l,
+                    active:
+                        l.url === `/org/${orgId}`
+                            ? l.url === pathname
+                            : pathname.slice(0, l.url?.length || 0) === l.url,
+                }
+            })
+
+            return { ...n, links: newLinks }
         })
-        return result as (typeof navLinks)[0]['links'][0] | undefined
     }, [pathname])
 
     return (
@@ -216,7 +220,7 @@ const DashboardLayout = ({
                             </div>
                             <Separator />
                             <ScrollArea className="py-4">
-                                {navLinks.map((nav, i) => (
+                                {links.map((nav, i) => (
                                     <Fragment key={`nav-${i}`}>
                                         <Nav
                                             key={i}

@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LucideIcon } from 'lucide-react'
@@ -20,12 +21,12 @@ interface NavProps {
         label?: string
         icon: LucideIcon
         url: string
+        active: boolean
     }[]
     name?: string
 }
 
 export const Nav = ({ links, isCollapsed, name }: NavProps) => {
-    const pathname = usePathname()
     return (
         <div data-collapsed={isCollapsed} className="group flex flex-col gap-3">
             {!isCollapsed && name && (
@@ -38,11 +39,6 @@ export const Nav = ({ links, isCollapsed, name }: NavProps) => {
             )}
             <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2 ">
                 {links.map((link, index) => {
-                    const active =
-                        link.url === '/'
-                            ? link.url === pathname
-                            : pathname.slice(0, link.url?.length || 0) ===
-                              link.url
                     return isCollapsed ? (
                         <Tooltip key={index} delayDuration={0}>
                             <TooltipTrigger asChild>
@@ -50,13 +46,13 @@ export const Nav = ({ links, isCollapsed, name }: NavProps) => {
                                     href={link.url}
                                     className={cn(
                                         buttonVariants({
-                                            variant: active
+                                            variant: link.active
                                                 ? 'default'
                                                 : 'ghost',
                                             size: 'icon',
                                         }),
                                         'h-9 w-9 group-[[data-collapsed=true]]:my-0.5',
-                                        active &&
+                                        link.active &&
                                             'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
                                     )}
                                 >
@@ -90,7 +86,7 @@ export const Nav = ({ links, isCollapsed, name }: NavProps) => {
                                     variant: 'ghost',
                                     size: 'sm',
                                 }),
-                                active &&
+                                link.active &&
                                     'text-primary bg-primary/10 hover:text-primary hover:bg-primary/10 ',
                                 'justify-start'
                             )}
@@ -104,7 +100,7 @@ export const Nav = ({ links, isCollapsed, name }: NavProps) => {
                                 <span
                                     className={cn(
                                         'ml-auto',
-                                        active && 'text-primary'
+                                        link.active && 'text-primary'
                                     )}
                                 >
                                     {link.label}

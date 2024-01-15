@@ -15,7 +15,6 @@ const Layout = ({
 }) => {
     const layout = cookies().get(`react-resizable-panels:${type}`)
     const collapsed = cookies().get(`react-resizable-panels:${type}-collapsed`)
-
     const defaultLayout = layout ? JSON.parse(layout.value) : undefined
     const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : undefined
 
