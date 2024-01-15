@@ -27,7 +27,6 @@ export const getToken = async () => {
         if (token) break
         counter++
         if (counter > 0) await delay(500)
-        console.log(counter)
         handle()
     }
     return token

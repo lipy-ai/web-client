@@ -24,7 +24,6 @@ const GlobalClientSideProvider = ({ children }: { children: ReactNode }) => {
         getAnalytics(firebase_app)
     }, [])
 
-    console.log(firebase_auth)
     return (
         <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />

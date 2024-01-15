@@ -1,16 +1,7 @@
-import Image from 'next/image'
+import { redirect } from 'next/navigation'
 
-import Navbar from '@/components/custom/navbar'
-import Layout from '@/components/layout'
+import { FullPageLoader } from '@/components/custom/loader'
 
 export default function Home() {
-    return (
-        <Layout type="dashboard">
-            <Navbar title="Dashboard" />
-
-            <p className="m-auto p-16 border-2 border-dashed text-3xl">
-                Dashboard
-            </p>
-        </Layout>
-    )
+    redirect('/org')
 }

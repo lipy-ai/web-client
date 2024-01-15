@@ -2,7 +2,7 @@ import React from 'react'
 import { ArrowDown, Circle } from 'lucide-react'
 import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs'
 
-import { ListFilter } from '../../../components/custom/filter'
+import { ListFilter } from '../../../../../components/custom/filter'
 
 export const statusOpts = [
     {

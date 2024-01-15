@@ -39,6 +39,7 @@ interface Props {
 }
 
 const DashboardLayout = ({
+    params,
     children,
     defaultCollapsed = false,
     defaultLayout = [15, 85],
@@ -46,7 +47,7 @@ const DashboardLayout = ({
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
     const [layout, setLayout] = useState(defaultLayout)
     const pathname = usePathname()
-
+    console.log(params)
     const navCollapsedSize = 4
 
     const keyName = 'dashboard'
