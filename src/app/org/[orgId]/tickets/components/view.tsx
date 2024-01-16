@@ -1,15 +1,9 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useParams } from 'next/navigation'
 import { useTicketsQuery } from '@/queries/ticket'
-import {
-    Mail,
-    MessageCircle,
-    MessageCircleOff,
-    MessageSquare,
-    Ticket,
-} from 'lucide-react'
+import { Mail, MessageCircleOff, Ticket } from 'lucide-react'
 
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
@@ -21,27 +15,7 @@ import Toolbar from '@/app/org/[orgId]/tickets/components/toolbar'
 
 import { useTicketStore } from '../../../../../store/useTicket'
 import TicketList from './list'
-import TicketPreviewFooter from './ticket-view/footer'
-import TicketHead from './ticket-view/head'
-import TicketPreviewBody from './ticket-view/messages'
-
-const TicketPreview = () => {
-    const ref = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        const el = ref.current
-        if (!el) return
-
-        el.scrollTop = el.scrollHeight
-    }, [ref.current])
-    return (
-        <div ref={ref} className="overflow-y-auto h-screen">
-            <TicketHead />
-            <TicketPreviewBody />
-            <TicketPreviewFooter />
-        </div>
-    )
-}
+import TicketPreview from './ticket-view'
 
 const View = () => {
     const { orgId, type } = useParams<{
@@ -89,7 +63,7 @@ const View = () => {
                 <FullPageError message={views[type].err} />
             ) : isLoading ? (
                 <FullPageLoader />
-            ) : !data || data.length > 0 ? (
+            ) : !data || data.length === 0 ? (
                 <EmptyPage
                     title={views[type].empty.title}
                     description="It appears you haven't recieved any messages from your customers yet."
@@ -99,7 +73,10 @@ const View = () => {
                 <div>
                     <Sheet open={!!currTicket} onOpenChange={handleOpenChange}>
                         <SheetContent className="w-full md:w-[60%]">
-                            <TicketPreview />
+                            <TicketPreview
+                                ticketId={currTicket}
+                                orgId={orgId}
+                            />
                         </SheetContent>
                     </Sheet>
                     <div className="m-8 space-y-6">

@@ -33,7 +33,14 @@ const TicketPreviewFooter = () => {
                 </div>
             </div>
             <div className="p-4">
-                <div className="border rounded-md p-2">
+                <div
+                    className="border rounded-md p-2 cursor-text"
+                    onClick={(e) =>
+                        (
+                            e.currentTarget.childNodes[0] as HTMLTextAreaElement
+                        )?.focus()
+                    }
+                >
                     <TextArea
                         placeholder="Type message here..."
                         value={text}

@@ -29,9 +29,15 @@ const TicketList = ({ items }: { items: ALLTicketResult }) => {
                                 <MessageSquare className="w-4 h-4 " />
                             </div>
                             <div>
-                                <p className="font-medium">{'item.name'}</p>
-                                <p className="text-muted-foreground">
-                                    {'item.subject'}
+                                <p className="font-medium">
+                                    {item.customer.name || 'Anonymous Customer'}
+                                </p>
+                                <p className="text-muted-foreground text-xs">
+                                    {item.assignee.id
+                                        ? `Assigned to ${
+                                              item.assignee.name || 'Unknown'
+                                          }`
+                                        : 'Not Assisgned'}
                                 </p>
                             </div>
                         </div>
