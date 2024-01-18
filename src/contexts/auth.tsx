@@ -15,11 +15,13 @@ import { FullPageLoader } from '@/components/custom/loader'
 export interface IAuthContext {
     loading: boolean
     user: User | null
+    token: string | null
 }
 
 const values = {
     loading: false,
     user: null,
+    token: null,
 }
 
 const AuthContext = createContext<IAuthContext>(values)
@@ -28,6 +30,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const [user, setUser] = useState<User | null>(null)
+    const [token, setToken] = useState<string | null>(null)
+
     const [loading, setLoading] = useState(true)
 
     const router = useRouter()
@@ -58,6 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (!user) return router.push('/auth')
         getIdTokenResult(user)
             .then((res) => {
+                setToken(res.token)
                 if (res.claims.deactivated && pathname !== '/deactivated') {
                     handleDeactivated()
                 }
@@ -72,6 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             value={{
                 loading: loading, //|| localFetching,
                 user,
+                token,
             }}
         >
             {!user && !pathname.includes('/auth') ? (

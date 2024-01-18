@@ -10,10 +10,9 @@ import { Sheet, SheetContent } from '@/components/ui/sheet'
 import EmptyPage from '@/components/custom/emptyPage'
 import { FullPageError } from '@/components/custom/error'
 import { FullPageLoader } from '@/components/custom/loader'
-import Navbar from '@/components/custom/navbar'
 import Toolbar from '@/app/org/[orgId]/tickets/components/toolbar'
 
-import { useTicketStore } from '../../../../../store/useTicket'
+import { useTicketStore } from '../../../../../store/ticket'
 import TicketList from './list'
 import TicketPreview from './ticket-view'
 
@@ -58,7 +57,6 @@ const View = () => {
 
     return (
         <>
-            <Navbar title={views[type].title} />
             {isError ? (
                 <FullPageError message={views[type].err} />
             ) : isLoading ? (

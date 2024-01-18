@@ -7,7 +7,7 @@ import { Mail, MessageCircle, MessageSquare } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
-import { useTicketStore } from '../../../../../store/useTicket'
+import { useTicketStore } from '../../../../../store/ticket'
 
 const TicketList = ({ items }: { items: ALLTicketResult }) => {
     const { setCurrTicket } = useTicketStore()

@@ -5,6 +5,7 @@ import './globals.css'
 
 import { AuthProvider } from '@/contexts/auth'
 import GlobalClientSideProvider from '@/contexts/globalClientProvider'
+import { SocketProvider } from '@/contexts/socket'
 import { Toaster } from 'sonner'
 
 import { cn } from '@/lib/utils'
@@ -26,8 +27,8 @@ export default function RootLayout({
             <body className={cn(inter.className, 'flex flex-col min-h-screen')}>
                 <GlobalClientSideProvider>
                     <AuthProvider>
-                        {children}
-                        <Toaster />
+                        <SocketProvider>{children}</SocketProvider>
+                        <Toaster richColors />
                     </AuthProvider>
                 </GlobalClientSideProvider>
             </body>

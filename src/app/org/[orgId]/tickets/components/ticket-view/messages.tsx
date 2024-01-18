@@ -42,13 +42,13 @@ const AvatarComponent = ({
     )
 }
 
-const TicketPreviewBody = ({ items }: { items: TicketMessagesResult[] }) => {
+const TicketPreviewBody = ({ items }: { items?: TicketMessagesResult[] }) => {
     if (!items) return <div className="text-sm mt-auto"></div>
-    if (items.length > 0) {
+    if (items.length === 0) {
         return (
             <EmptyPage
                 title="No messages yet."
-                description="It seems customer hasn't messaged yet. Type your message below to strike a conversation!"
+                description="It seems customer hasn't messaged yet. Type below to strike a conversation!"
             />
         )
     }
@@ -61,7 +61,7 @@ const TicketPreviewBody = ({ items }: { items: TicketMessagesResult[] }) => {
                     <div
                         key={i}
                         className={cn(
-                            'flex items-start w-full gap-2 p-4 border-b border-border/40',
+                            'flex items-start w-full gap-2 p-4 border-b border-border/60',
                             item.sender.type === 'customer' && 'bg-primary/10'
                         )}
                     >
