@@ -4,6 +4,7 @@ import { getApps, initializeApp } from 'firebase/app'
 import { browserLocalPersistence, getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getFunctions } from 'firebase/functions'
+import { getStorage } from 'firebase/storage'
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -27,6 +28,7 @@ export const firebase_app =
 export const firebase_auth = getAuth()
 export const firebase_db = getFirestore(firebase_app)
 export const firebase_fn = getFunctions(firebase_app)
+export const firebase_storage = getStorage(firebase_app)
 
 if (process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
     firebase_auth.setPersistence(browserLocalPersistence)

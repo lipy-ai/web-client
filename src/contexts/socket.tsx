@@ -19,31 +19,32 @@ const socket = io('http://0.0.0.0:8082/business', {
     transports: ['websocket'],
     path: '/io/',
     autoConnect: false,
+    retries: 10,
 })
 
-socket.on('connect', function () {
-    toast.info('Socket connected')
-})
+// socket.on('connect', function () {
+//     toast.info('Socket connected')
+// })
 
-socket.on('disconnect', function () {
-    toast.info('Socket disconnected')
-})
+// socket.on('disconnect', function () {
+//     toast.info('Socket disconnected')
+// })
 
-socket.on('reconnect', function () {
-    toast.info('Socket reconnected')
-})
+// socket.on('reconnect', function () {
+//     toast.info('Socket reconnected')
+// })
 
-socket.on('error', (err) => {
-    toast.error('Socker Error!', {
-        description: err.message || 'Something went wrong!',
-    })
-})
+// socket.on('error', (err) => {
+//     toast.error('Socker Error!', {
+//         description: err.message || 'Something went wrong!',
+//     })
+// })
 
-socket.on('connect_error', (err: any) => {
-    toast.error('Socket Connection Error!', {
-        description: err.message || 'Something went wrong!',
-    })
-})
+// socket.on('connect_error', (err: any) => {
+//     toast.error('Socket Connection Error!', {
+//         description: err.message || 'Something went wrong!',
+//     })
+// })
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
     const { token } = useAuth()

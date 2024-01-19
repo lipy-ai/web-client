@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus } from 'lucide-react'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -11,39 +11,37 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import CustomInput from '@/components/custom/customInput'
 
 import Faq from './components/faq'
 
-export const FaqsFromSchema = z.object({
-    faqs: z.array(
-        z.object({
-            id: z.string(),
-            question: z.string().min(1).max(300),
-            answer: z.string().min(1).max(300),
-            tags: z.array(z.string()),
-        })
-    ),
-})
-
-export type FaqsFormType = z.infer<typeof FaqsFromSchema>
+export type FaqsType = Array<{
+    id: string
+    question: string
+    answer: string
+    tags: string[]
+}>
 
 const Page = () => {
-    const form = useForm<FaqsFormType>({
-        resolver: zodResolver(FaqsFromSchema),
-        defaultValues: {
-            faqs: [
-                { id: '1', question: '', answer: '', tags: [] },
-                { id: '2', question: '', answer: '', tags: [] },
-            ],
-        },
-    })
+    const [data, setData] = useState<FaqsType>([])
 
-    const { fields, prepend } = useFieldArray({
-        name: 'faqs',
-        control: form.control,
-        keyName: 'key',
-    })
+    const handleAdd = () => {
+        setData((prev) => [
+            {
+                id: crypto.randomUUID(),
+                question: '',
+                answer: '',
+                tags: [],
+            },
+            ...prev,
+        ])
+    }
+
+    useEffect(() => {
+        handleAdd()
+        handleAdd()
+        handleAdd()
+        handleAdd()
+    }, [])
 
     return (
         <>
@@ -51,16 +49,7 @@ const Page = () => {
                 <div className="flex gap-4 w-full">
                     <Input placeholder="Search faqs..." />
                     <div>
-                        <Button
-                            onClick={() =>
-                                prepend({
-                                    id: crypto.randomUUID(),
-                                    question: '',
-                                    answer: '',
-                                    tags: [],
-                                })
-                            }
-                        >
+                        <Button onClick={handleAdd}>
                             <span>Add New...</span>
 
                             <Plus className="w-5 h-5" />
@@ -70,20 +59,18 @@ const Page = () => {
                 <div className="space-y-3">
                     <div>
                         <Label>
-                            Frequently Asked Questions ({fields.length} Items)
+                            Frequently Asked Questions ({data.length} Items)
                         </Label>
                         <p className="text-muted-foreground text-sm">
                             List of all FAQ's that assistant can learn and refer
                             to while answering your customer inquires!
                         </p>
                     </div>
-                    <div
-                        className={cn(fields.length > 0 && 'border rounded-md')}
-                    >
-                        {fields.map((field, k) => (
-                            <div key={field.key}>
-                                <Faq />
-                                {fields.length !== k + 1 && (
+                    <div className={cn(data.length > 0 && 'border rounded-md')}>
+                        {data.map((field, k) => (
+                            <div key={field.id}>
+                                <Faq data={field} />
+                                {data.length !== k + 1 && (
                                     <Separator className="bg-border/60" />
                                 )}
                             </div>

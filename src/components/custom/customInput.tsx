@@ -14,9 +14,11 @@ export interface InputProps
 const CustomInput = React.forwardRef<HTMLDivElement, InputProps>(
     ({ className, value, onChange, tagName, ...props }, ref) => {
         const handleChange = (e: ContentEditableEvent) => {
-            const sanitizeConf = {
-                allowedTags: [],
-                allowedAttributes: {},
+            const sanitizeConf: sanitizeHtml.IOptions = {
+                allowedTags: ['span'],
+                allowedAttributes: {
+                    span: ['class'],
+                },
             }
             onChange &&
                 onChange(sanitizeHtml(e.currentTarget.innerHTML, sanitizeConf))
@@ -29,7 +31,7 @@ const CustomInput = React.forwardRef<HTMLDivElement, InputProps>(
                 onChange={handleChange}
                 tagName={tagName || 'div'} // Use a custom HTML tag (uses a div by default)
                 className={cn(
-                    'cursor-text outline-none before:opacity-40 before:text-foreground [&:not(:focus)]:empty:before:content-[attr(placeholder)] ',
+                    'text-sm cursor-text outline-none before:opacity-40 before:text-foreground [&:not(:focus)]:empty:before:content-[attr(placeholder)] ',
                     !value && 'inline-block',
                     className
                 )}
