@@ -17,7 +17,17 @@ const Page = async ({
     return (
         <OrgProvider orgId={orgId}>
             <Layout type="dashboard">
-                <Navbar />
+                <Navbar
+                    titles={{
+                        '/org': 'Dashboard',
+                        '/tickets/view/all': 'All Tickets',
+                        '/tickets/view/email': 'Emails Tickets',
+                        '/tickets/view/chat': 'Chats Tickets',
+                        '/knowledge-base': 'Knowledge Base',
+                        '/setup': 'Assistant Setup',
+                        '/settings': 'Organisation Settings',
+                    }}
+                />
                 {children}
             </Layout>
         </OrgProvider>

@@ -68,14 +68,7 @@ type Team = (typeof groups)[number]['teams'][number]
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
-interface OrgSwitcherProps extends PopoverTriggerProps {
-    isCollapsed: boolean
-}
-
-export default function OrgSwitcher({
-    className,
-    isCollapsed,
-}: OrgSwitcherProps) {
+export default function OrgSwitcher({ className }: PopoverTriggerProps) {
     const [open, setOpen] = React.useState(false)
     const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
     const [selectedTeam, setSelectedTeam] = React.useState<Team>(
@@ -92,16 +85,11 @@ export default function OrgSwitcher({
                         aria-expanded={open}
                         aria-label="Select a team"
                         className={cn(
-                            'w-full border-none mx-2',
-                            isCollapsed
-                                ? 'p-0 justify-center'
-                                : 'justify-between',
+                            'w-full border-none mx-2 p-0 justify-center',
                             className
                         )}
                     >
-                        <Avatar
-                            className={cn(isCollapsed ? 'h-6 w-6' : 'h-5 w-5')}
-                        >
+                        <Avatar className={'h-6 w-6'}>
                             <AvatarImage
                                 src={`https://avatar.vercel.sh/${selectedTeam.value}.png`}
                                 alt={selectedTeam.label}
@@ -109,14 +97,6 @@ export default function OrgSwitcher({
                             />
                             <AvatarFallback>SC</AvatarFallback>
                         </Avatar>
-                        {!isCollapsed && (
-                            <>
-                                <span className="ml-2">
-                                    {selectedTeam.label}
-                                </span>
-                                <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
-                            </>
-                        )}
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0">

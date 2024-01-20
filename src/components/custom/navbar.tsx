@@ -11,24 +11,13 @@ import { buttonVariants } from '../ui/button'
 import { Separator } from '../ui/separator'
 import { UserNav } from './userNav'
 
-const Navbar = () => {
-    const allTitles = {
-        '/org': 'Dashboard',
-        '/tickets/view/all': 'All Tickets',
-        '/tickets/view/email': 'Emails Tickets',
-        '/tickets/view/chat': 'Chats Tickets',
-        '/knowledge-base': 'Knowledge Base',
-        '/setup': 'Assistant Setup',
-        '/account': 'Account Settings',
-        '/settings': 'Organisation Settings',
-    }
-
+const Navbar = ({ titles = {} }: { titles?: Record<string, string> }) => {
     const pathname = usePathname()
     const title = useMemo(() => {
         let key = null
-        Object.keys(allTitles).forEach((k) => pathname.includes(k) && (key = k))
-        if (key) return allTitles[key]
-    }, [pathname])
+        Object.keys(titles).forEach((k) => pathname.includes(k) && (key = k))
+        if (key) return titles[key]
+    }, [pathname, titles])
 
     return (
         <div className="sticky top-0 bg-background">

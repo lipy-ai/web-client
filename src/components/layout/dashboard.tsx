@@ -1,6 +1,7 @@
 'use client'
 
-import React, { Fragment, ReactNode, useEffect, useMemo, useState } from 'react'
+import React, { ReactNode, useMemo } from 'react'
+import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import {
     AlertCircle,
@@ -21,48 +22,24 @@ import {
 import { cn } from '@/lib/utils'
 
 import OrgSwitcher from '../custom/orgSwitcher'
-import { Nav } from '../custom/sidebar'
-import {
-    ResizableHandle,
-    ResizablePanel,
-    ResizablePanelGroup,
-} from '../ui/resizable'
+import { buttonVariants } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
 import { Separator } from '../ui/separator'
-import { TooltipProvider } from '../ui/tooltip'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '../ui/tooltip'
 
 interface Props {
-    title: string
-    defaultLayout: number[] | undefined
-    defaultCollapsed?: boolean
     children: ReactNode
 }
 
-const DashboardLayout = ({
-    children,
-    defaultCollapsed = false,
-    defaultLayout = [15, 85],
-}: Props) => {
-    const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
-    const [layout, setLayout] = useState(defaultLayout)
+const DashboardLayout = ({ children }: Props) => {
     const pathname = usePathname()
-    const navCollapsedSize = 4
 
     const { orgId } = useParams<{ orgId: string }>()
-
-    const keyName = 'dashboard'
-
-    useEffect(() => {
-        document.cookie = `react-resizable-panels:${keyName}-collapsed=${JSON.stringify(
-            isCollapsed
-        )}; path=/`
-    }, [isCollapsed])
-
-    useEffect(() => {
-        document.cookie = `react-resizable-panels:${keyName}=${JSON.stringify(
-            layout
-        )};  path=/`
-    }, [layout])
 
     const navLinks = [
         {
@@ -184,67 +161,67 @@ const DashboardLayout = ({
     }, [pathname])
 
     return (
-        <div>
+        <div className="flex flex-1 w-full">
             <TooltipProvider delayDuration={0}>
-                <ResizablePanelGroup
-                    autoSaveId={keyName}
-                    direction="horizontal"
-                    onLayout={(sizes: number[]) => setLayout(sizes)}
-                    className="flex-1 items-stretch"
-                >
-                    <ResizablePanel
-                        defaultSize={layout[0]}
-                        collapsedSize={navCollapsedSize}
-                        collapsible={true}
-                        minSize={10}
-                        maxSize={17}
-                        onCollapse={() => {
-                            setIsCollapsed(true)
-                        }}
-                        onExpand={() => {
-                            setIsCollapsed(false)
-                        }}
+                <div className="flex flex-col h-screen w-[70px] border-r">
+                    <div
                         className={cn(
-                            isCollapsed &&
-                                'min-w-[50px] transition-all duration-300 ease-in-out'
+                            'flex h-[52px] items-center justify-center'
                         )}
                     >
-                        <div className="flex flex-col h-screen">
+                        <OrgSwitcher />
+                    </div>
+                    <Separator />
+                    <ScrollArea>
+                        {links.map((nav, i) => (
                             <div
-                                className={cn(
-                                    'flex h-[52px] items-center justify-center',
-                                    isCollapsed && 'h-[52px]'
-                                )}
+                                className="flex flex-col items-center justify-center border-border/40 border-b py-1.5"
+                                key={`nav-${i}`}
                             >
-                                <OrgSwitcher isCollapsed={isCollapsed} />
-                            </div>
-                            <Separator />
-                            <ScrollArea className="py-4">
-                                {links.map((nav, i) => (
-                                    <Fragment key={`nav-${i}`}>
-                                        <Nav
-                                            key={i}
-                                            name={nav.title}
-                                            isCollapsed={isCollapsed}
-                                            links={nav.links}
-                                        />
-                                        {/* {i < navLinks.length - 1 && (
-                                            <Separator />
-                                        )} */}
-                                    </Fragment>
+                                {nav.links.map((link, key) => (
+                                    <Tooltip key={key} delayDuration={0}>
+                                        <TooltipTrigger asChild>
+                                            <Link
+                                                href={link.url}
+                                                className={cn(
+                                                    buttonVariants({
+                                                        variant: link.active
+                                                            ? 'default'
+                                                            : 'ghost',
+                                                        size: 'icon',
+                                                    }),
+                                                    'h-9 w-9 my-0.5',
+                                                    link.active &&
+                                                        'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
+                                                )}
+                                            >
+                                                {link.icon && (
+                                                    <link.icon
+                                                        width={20}
+                                                        height={20}
+                                                        strokeWidth={1.5}
+                                                    />
+                                                )}
+                                                <span className="sr-only">
+                                                    {link.title}
+                                                </span>
+                                            </Link>
+                                        </TooltipTrigger>
+                                        <TooltipContent
+                                            side="right"
+                                            className="flex items-center gap-4"
+                                        >
+                                            {link.title}
+                                        </TooltipContent>
+                                    </Tooltip>
                                 ))}
-                            </ScrollArea>
-                        </div>
-                    </ResizablePanel>
-                    <ResizableHandle withHandle />
-                    <ResizablePanel defaultSize={layout[1]} minSize={30}>
-                        <div className="h-screen overflow-auto">
-                            <div className="h-full flex flex-col">
-                                {children}
                             </div>
-                        </div>
-                    </ResizablePanel>
-                </ResizablePanelGroup>
+                        ))}
+                    </ScrollArea>
+                </div>
+                <div className="h-screen overflow-auto w-full">
+                    <div className="h-full flex flex-col">{children}</div>
+                </div>
             </TooltipProvider>
         </div>
     )
