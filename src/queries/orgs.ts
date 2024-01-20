@@ -1,5 +1,5 @@
 import { OrgListTable } from 'lipy-ai/db'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 
 import { apiQuery } from '@/lib/api'
 import { queryClient } from '@/lib/queryClient'
@@ -11,6 +11,7 @@ export type ALLOrgsResult = {
 }
 
 export const ALLOrgsQueryId = 'orgs'
+export const SingleOrgQueryId = (id: string) => 'org:' + 'id'
 
 export const useOrgsQuery = (enabled = true) => {
     return useQuery<ALLOrgsResult>(
@@ -18,6 +19,17 @@ export const useOrgsQuery = (enabled = true) => {
         async () =>
             await apiQuery(
                 { url: '/orgs', method: 'GET' },
+                { throwError: true }
+            )
+    )
+}
+
+export const useSingleOrgQuery = (id: string) => {
+    return useQuery<ALLOrgsResult>(
+        SingleOrgQueryId(id),
+        async () =>
+            await apiQuery(
+                { url: '/org/' + id, method: 'GET' },
                 { throwError: true }
             )
     )
