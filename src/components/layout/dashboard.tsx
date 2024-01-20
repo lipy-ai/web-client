@@ -52,7 +52,7 @@ const DashboardLayout = ({ children }: Props) => {
             ],
         },
         {
-            title: 'Tickets',
+            title: 'Support Tickets',
             links: [
                 {
                     title: 'All Tickets',
@@ -75,7 +75,7 @@ const DashboardLayout = ({ children }: Props) => {
             ],
         },
         {
-            title: 'knowledge base',
+            title: 'Knowledge Base',
             links: [
                 {
                     title: 'Website',
@@ -129,7 +129,7 @@ const DashboardLayout = ({ children }: Props) => {
                     url: '/account',
                 },
                 {
-                    title: 'Settings',
+                    title: 'Organisation Settings',
                     // label: '972',
                     icon: Settings,
                     url: '/settings',
@@ -211,7 +211,16 @@ const DashboardLayout = ({ children }: Props) => {
                                             side="right"
                                             className="flex items-center gap-4"
                                         >
-                                            {link.title}
+                                            <div>
+                                                {nav.title && (
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {nav.title}
+                                                    </p>
+                                                )}
+                                                <p className="font-medium">
+                                                    {link.title}
+                                                </p>
+                                            </div>
                                         </TooltipContent>
                                     </Tooltip>
                                 ))}
