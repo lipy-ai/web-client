@@ -3,12 +3,10 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 
 export interface InputProps
-    extends React.TableHTMLAttributes<HTMLTextAreaElement> {
-    noStyle?: boolean
-}
+    extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 const TextArea = React.forwardRef<HTMLTextAreaElement, InputProps>(
-    ({ className, noStyle, ...props }, ref) => {
+    ({ className, ...props }, ref) => {
         const handleSize = (el: HTMLElement) => {
             el.style.height = '0px'
             el.style.height = `${el.scrollHeight}px`
@@ -23,13 +21,12 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, InputProps>(
         return (
             <textarea
                 className={cn(
-                    'resize-none outline-none focus:outline-none max-h-[300px] text-sm',
+                    'resize-none text-sm my-auto flex-1 block max-h-[300px] w-full p-2 rounded-md outline-none',
                     className
                 )}
-                rows={1}
                 onInput={(e) => {
                     handleSize(e.currentTarget)
-                    props.onChange && props.onChange(e)
+                    props.onChange && props.onChange(e as any)
                 }}
                 ref={ref}
                 {...props}

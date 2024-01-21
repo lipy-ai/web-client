@@ -1,7 +1,8 @@
 'use client'
 
-import React, { Fragment, ReactNode, useEffect, useMemo, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import React, { ReactNode, useMemo } from 'react'
+import Link from 'next/link'
+import { useParams, usePathname } from 'next/navigation'
 import {
     AlertCircle,
     Blocks,
@@ -20,100 +21,25 @@ import {
 
 import { cn } from '@/lib/utils'
 
-import { AccountSwitcher } from '../custom/accountSwitcher'
-import { Nav } from '../custom/sidebar'
-import {
-    ResizableHandle,
-    ResizablePanel,
-    ResizablePanelGroup,
-} from '../ui/resizable'
+import OrgSwitcher from '../custom/orgSwitcher'
+import { buttonVariants } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
 import { Separator } from '../ui/separator'
-import { TooltipProvider } from '../ui/tooltip'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '../ui/tooltip'
 
 interface Props {
-    title: string
-    defaultLayout: number[] | undefined
-    defaultCollapsed?: boolean
     children: ReactNode
 }
 
-const accounts = [
-    {
-        label: 'Alicia Koch',
-        email: 'alicia@example.com',
-        icon: (
-            <svg
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <title>Vercel</title>
-                <path d="M24 22.525H0l12-21.05 12 21.05z" fill="currentColor" />
-            </svg>
-        ),
-    },
-    {
-        label: 'Alicia Koch',
-        email: 'alicia@gmail.com',
-        icon: (
-            <svg
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <title>Gmail</title>
-                <path
-                    d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"
-                    fill="currentColor"
-                />
-            </svg>
-        ),
-    },
-    {
-        label: 'Alicia Koch',
-        email: 'alicia@me.com',
-        icon: (
-            <svg
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <title>iCloud</title>
-                <path
-                    d="M13.762 4.29a6.51 6.51 0 0 0-5.669 3.332 3.571 3.571 0 0 0-1.558-.36 3.571 3.571 0 0 0-3.516 3A4.918 4.918 0 0 0 0 14.796a4.918 4.918 0 0 0 4.92 4.914 4.93 4.93 0 0 0 .617-.045h14.42c2.305-.272 4.041-2.258 4.043-4.589v-.009a4.594 4.594 0 0 0-3.727-4.508 6.51 6.51 0 0 0-6.511-6.27z"
-                    fill="currentColor"
-                />
-            </svg>
-        ),
-    },
-]
-
-const DashboardLayout = ({
-    children,
-    defaultCollapsed = false,
-    defaultLayout = [15, 85],
-}: Props) => {
-    const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
-    const [layout, setLayout] = useState(defaultLayout)
+const DashboardLayout = ({ children }: Props) => {
     const pathname = usePathname()
 
-    const navCollapsedSize = 4
-
-    const keyName = 'dashboard'
-
-    useEffect(() => {
-        console.log(isCollapsed)
-        document.cookie = `react-resizable-panels:${keyName}-collapsed=${JSON.stringify(
-            isCollapsed
-        )}; path=/`
-    }, [isCollapsed])
-
-    useEffect(() => {
-        document.cookie = `react-resizable-panels:${keyName}=${JSON.stringify(
-            layout
-        )};  path=/`
-    }, [layout])
+    const { orgId } = useParams<{ orgId: string }>()
 
     const navLinks = [
         {
@@ -121,53 +47,53 @@ const DashboardLayout = ({
                 {
                     title: 'Home',
                     icon: Home,
-                    url: '/',
+                    url: `/org/${orgId}`,
                 },
             ],
         },
         {
-            title: 'Tickets',
+            title: 'Support Tickets',
             links: [
                 {
                     title: 'All Tickets',
                     label: '128',
                     icon: Ticket,
-                    url: '/tickets/all',
+                    url: `/org/${orgId}/tickets/view/all`,
                 },
                 {
                     title: 'Emails',
                     label: '9',
                     icon: Mail,
-                    url: '/tickets/emails',
+                    url: `/org/${orgId}/tickets/view/email`,
                 },
                 {
                     title: 'Chats',
                     label: '',
                     icon: MessagesSquare,
-                    url: '/tickets/chats',
+                    url: `/org/${orgId}/tickets/view/chat`,
                 },
             ],
         },
         {
-            title: 'knowledge base',
+            title: 'Knowledge Base',
             links: [
                 {
                     title: 'Website',
                     // label: '972',
                     icon: Globe,
-                    url: '/knowledge-base/website',
+                    url: `/org/${orgId}/knowledge-base/website`,
                 },
                 {
                     title: 'Documents',
                     // label: '342',
                     icon: FileText,
-                    url: '/knowledge-base/documents',
+                    url: `/org/${orgId}/knowledge-base/documents`,
                 },
                 {
                     title: 'FAQs',
                     // label: '342',
                     icon: FileQuestion,
-                    url: '/knowledge-base/faqs',
+                    url: `/org/${orgId}/knowledge-base/faqs`,
                 },
             ],
         },
@@ -178,19 +104,19 @@ const DashboardLayout = ({
                     title: 'Chatbots',
                     // label: '972',
                     icon: MessageSquareCode,
-                    url: '/setup/chatbots',
+                    url: `/org/${orgId}/setup/chatbots`,
                 },
                 {
                     title: 'Email Inbox',
                     // label: '972',
                     icon: MailPlus,
-                    url: '/setup/email-inbox',
+                    url: `/org/${orgId}/setup/email-inbox`,
                 },
                 {
                     title: 'Integrations',
                     // label: '342',
                     icon: Blocks,
-                    url: '/setup/integrations',
+                    url: `/org/${orgId}/setup/integrations`,
                 },
             ],
         },
@@ -203,7 +129,7 @@ const DashboardLayout = ({
                     url: '/account',
                 },
                 {
-                    title: 'Settings',
+                    title: 'Organisation Settings',
                     // label: '972',
                     icon: Settings,
                     url: '/settings',
@@ -218,85 +144,93 @@ const DashboardLayout = ({
         },
     ]
 
-    const active = useMemo(() => {
-        let result = undefined
-        navLinks.find((n) => {
-            return (result = n.links.find((l) =>
-                l.url === '/'
-                    ? l.url === pathname
-                    : pathname.slice(0, l.url?.length || 0) === l.url
-            ))
+    const links = useMemo(() => {
+        return navLinks.map((n) => {
+            const newLinks = n.links.map((l) => {
+                return {
+                    ...l,
+                    active:
+                        l.url === `/org/${orgId}`
+                            ? l.url === pathname
+                            : pathname.slice(0, l.url?.length || 0) === l.url,
+                }
+            })
+
+            return { ...n, links: newLinks }
         })
-        return result as (typeof navLinks)[0]['links'][0] | undefined
     }, [pathname])
 
-    console.log(active)
-
     return (
-        <div>
+        <div className="flex flex-1 w-full">
             <TooltipProvider delayDuration={0}>
-                <ResizablePanelGroup
-                    autoSaveId={keyName}
-                    direction="horizontal"
-                    onLayout={(sizes: number[]) => setLayout(sizes)}
-                    className="flex-1 items-stretch"
-                >
-                    <ResizablePanel
-                        defaultSize={layout[0]}
-                        collapsedSize={navCollapsedSize}
-                        collapsible={true}
-                        minSize={10}
-                        maxSize={17}
-                        onCollapse={() => {
-                            setIsCollapsed(true)
-                        }}
-                        onExpand={() => {
-                            setIsCollapsed(false)
-                        }}
+                <div className="flex flex-col h-screen w-[70px] border-r">
+                    <div
                         className={cn(
-                            isCollapsed &&
-                                'min-w-[50px] transition-all duration-300 ease-in-out'
+                            'flex h-[52px] items-center justify-center'
                         )}
                     >
-                        <div className="flex flex-col h-screen">
+                        <OrgSwitcher />
+                    </div>
+                    <Separator />
+                    <ScrollArea>
+                        {links.map((nav, i) => (
                             <div
-                                className={cn(
-                                    'flex h-[52px] items-center justify-center',
-                                    isCollapsed && 'h-[52px]'
-                                )}
+                                className="flex flex-col items-center justify-center border-border/40 border-b py-1.5"
+                                key={`nav-${i}`}
                             >
-                                <AccountSwitcher
-                                    isCollapsed={isCollapsed}
-                                    accounts={accounts}
-                                />
-                            </div>
-                            <Separator />
-                            <ScrollArea className="py-4">
-                                {navLinks.map((nav, i) => (
-                                    <Fragment key={`nav-${i}`}>
-                                        <Nav
-                                            key={i}
-                                            name={nav.title}
-                                            isCollapsed={isCollapsed}
-                                            links={nav.links}
-                                        />
-                                        {/* {i < navLinks.length - 1 && (
-                                            <Separator />
-                                        )} */}
-                                    </Fragment>
+                                {nav.links.map((link, key) => (
+                                    <Tooltip key={key} delayDuration={0}>
+                                        <TooltipTrigger asChild>
+                                            <Link
+                                                href={link.url}
+                                                className={cn(
+                                                    buttonVariants({
+                                                        variant: link.active
+                                                            ? 'default'
+                                                            : 'ghost',
+                                                        size: 'icon',
+                                                    }),
+                                                    'h-9 w-9 my-0.5',
+                                                    link.active &&
+                                                        'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
+                                                )}
+                                            >
+                                                {link.icon && (
+                                                    <link.icon
+                                                        width={20}
+                                                        height={20}
+                                                        strokeWidth={1.5}
+                                                    />
+                                                )}
+                                                <span className="sr-only">
+                                                    {link.title}
+                                                </span>
+                                            </Link>
+                                        </TooltipTrigger>
+                                        <TooltipContent
+                                            side="right"
+                                            className="flex items-center gap-4"
+                                        >
+                                            <div>
+                                                {nav.title && (
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {nav.title}
+                                                    </p>
+                                                )}
+                                                <p className="font-medium">
+                                                    {link.title}
+                                                </p>
+                                            </div>
+                                        </TooltipContent>
+                                    </Tooltip>
                                 ))}
-                            </ScrollArea>
-                        </div>
-                    </ResizablePanel>
-                    <ResizableHandle withHandle />
-                    <ResizablePanel defaultSize={layout[1]} minSize={30}>
-                        <div className="h-screen overflow-auto">
-                            <div className="h-full flex flex-col">
-                                {children}
                             </div>
-                        </div>
-                    </ResizablePanel>
-                </ResizablePanelGroup>
+                        ))}
+                    </ScrollArea>
+                </div>
+                <div className="h-screen overflow-auto w-full">
+                    <div className="h-full flex flex-col">{children}</div>
+                </div>
             </TooltipProvider>
         </div>
     )

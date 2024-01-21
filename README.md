@@ -1,11 +1,9 @@
 ## Getting Started
-## hello
-##update
 
 First, run the development server:
 
 test
-new branch added 
+new branch added
 
 ```bash
 npm run dev
