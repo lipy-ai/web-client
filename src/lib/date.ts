@@ -1,5 +1,5 @@
-import { format } from 'date-fns/format'
-import { getUnixTime } from 'date-fns/getUnixTime'
+import { format } from '../../node_modules/date-fns/format'
+import { getUnixTime } from '../../node_modules/date-fns/getUnixTime'
 
 export const formatDateToReadable = (date: any) => {
     if (!date) return

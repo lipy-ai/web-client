@@ -14,7 +14,7 @@ export const ALLOrgsQueryId = 'orgs'
 export const SingleOrgQueryId = (id: string) => 'org:' + 'id'
 
 export const useOrgsQuery = (enabled = true) => {
-    return useQuery<ALLOrgsResult>(
+    return useQuery<ALLOrgsResult, any>(
         ALLOrgsQueryId,
         async () =>
             await apiQuery(
@@ -25,7 +25,7 @@ export const useOrgsQuery = (enabled = true) => {
 }
 
 export const useSingleOrgQuery = (id: string) => {
-    return useQuery<ALLOrgsResult>(
+    return useQuery<ALLOrgsResult, any>(
         SingleOrgQueryId(id),
         async () =>
             await apiQuery(

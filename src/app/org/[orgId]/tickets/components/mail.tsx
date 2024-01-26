@@ -1,11 +1,12 @@
 import { ScrollArea } from '@radix-ui/react-scroll-area'
-import format from 'date-fns/format'
 import { Reply } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { TextArea } from '@/components/ui/textarea'
+
+import format from '../../../../../../node_modules/date-fns/format'
 
 interface MailDisplayProps {
     mail: any | null

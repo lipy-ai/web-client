@@ -161,7 +161,7 @@ const DashboardLayout = ({ children }: Props) => {
     }, [pathname])
 
     return (
-        <div className="flex flex-1 w-full">
+        <main className="flex flex-1 w-full">
             <TooltipProvider delayDuration={0}>
                 <div className="flex flex-col h-screen w-[70px] border-r">
                     <div
@@ -232,7 +232,7 @@ const DashboardLayout = ({ children }: Props) => {
                     <div className="h-full flex flex-col">{children}</div>
                 </div>
             </TooltipProvider>
-        </div>
+        </main>
     )
 }
 

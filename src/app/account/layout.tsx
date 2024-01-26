@@ -7,11 +7,11 @@ import AccountNav from '@/components/layout/accountSidebar'
 const Page = ({ children }: { children: ReactNode }) => {
     return (
         <Layout type="dashboard">
-            <div className="flex w-full">
+            <div className="flex">
                 <AccountNav />
                 <div className="flex-1">
                     <Navbar />
-                    {children}
+                    <div>{children}</div>
                 </div>
             </div>
         </Layout>

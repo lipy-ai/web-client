@@ -39,7 +39,7 @@ const AccountNav = () => {
     }, [pathname])
 
     return (
-        <div className="w-[200px] border-r h-screen">
+        <div className="w-[200px] border-r h-screen sticky top-0">
             <div className="sticky top-0 bg-background">
                 <div className="flex justify-between px-3 py-2 items-center">
                     <div className="h-9 flex item-center">
@@ -48,8 +48,8 @@ const AccountNav = () => {
                         </h1>
                     </div>
                 </div>
+                <Separator />
             </div>
-            <Separator />
             <div className="py-5">
                 <Nav links={links} />
             </div>
